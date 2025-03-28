@@ -1,4 +1,4 @@
-# [Meeting Calendar App React + Vite](https://valeriiborisenko.github.io/meeting-calendar-app-ract-vite/)
+# [Meeting Calendar App React + Vite](https://valeriiborisenko.github.io/meeting-calendar-react-vite/)
 
 **Task:** Build a Meeting Calendar Component with ReactJS.
 
