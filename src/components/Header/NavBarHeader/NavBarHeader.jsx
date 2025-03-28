@@ -19,7 +19,7 @@ const NavBarHeader = () => {
 
     return (
         <nav className="navbar navbar-expand-lg navbar-dark">
-            <NavLink className="navbar-brand text-light" href="/meeting-calendar-react-vite/">
+            <NavLink className="navbar-brand text-light" to="/meeting-calendar-react-vite/">
                 <i className="bi bi-calendar2-week" style={{ fontSize: '2rem' }} />
             </NavLink>
             <button className="navbar-toggler" 
