@@ -1,6 +1,6 @@
 import { useContext, useState } from 'react';
 import './navbar-header.css';
-import { useLocation } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import NavContainer from './NavContainer';
 
 // eslint-disable-next-line no-unused-vars
@@ -19,9 +19,9 @@ const NavBarHeader = () => {
 
     return (
         <nav className="navbar navbar-expand-lg navbar-dark">
-            <a className="navbar-brand text-light" href="/">
+            <NavLink className="navbar-brand text-light" href="/meeting-calendar-react-vite/">
                 <i className="bi bi-calendar2-week" style={{ fontSize: '2rem' }} />
-            </a>
+            </NavLink>
             <button className="navbar-toggler" 
                 type="button" 
                 onClick={handleClickToggle}

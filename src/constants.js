@@ -1,20 +1,18 @@
-import ScheduleMeeting from './components/Pages/Home/ScheduleMeeting/ScheduleMeeting';
-
 export const navBarHeader = [
     {
         name: 'Home',
-        link: '/'
+        link: '/meeting-calendar-react-vite/'
     },
     {
         name: 'About',
-        link: '/about'
+        link: '/meeting-calendar-react-vite/about'
     },
     {
         name: 'Service',
-        link: '/service'
+        link: '/meeting-calendar-react-vite/service'
     },
     {
         name: 'Contact',
-        link: '/contact'
+        link: '/meeting-calendar-react-vite/contact'
     }
 ];

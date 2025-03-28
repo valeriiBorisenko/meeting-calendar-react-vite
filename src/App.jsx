@@ -15,10 +15,10 @@ function App() {
         <>
             <Header />
             <Routes>
-                <Route path='/' element={<Home />} />
-                <Route path='/about' element={<About />} />
-                <Route path='/service' element={<Service />} />
-                <Route path='/contact' element={<Contact />} />
+                <Route path='/meeting-calendar-react-vite/' element={<Home />} />
+                <Route path='/meeting-calendar-react-vite/about' element={<About />} />
+                <Route path='/meeting-calendar-react-vite/service' element={<Service />} />
+                <Route path='/meeting-calendar-react-vite/contact' element={<Contact />} />
                 <Route path='*' element={<NoFound />} />
             </Routes>
             <Footer />
