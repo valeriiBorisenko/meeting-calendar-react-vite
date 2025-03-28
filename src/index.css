@@ -17,3 +17,31 @@ body {
   width: 100%;
   min-height: 100%;
 }
+
+.w-min-content {
+  width: min-content ;
+}
+
+.w-max-content {
+  width: max-content ;
+}
+
+.h-min-content {
+  height: min-content ;
+}
+
+.h-max-content {
+  height: max-content ;
+}
+
+.min-w-min-content {
+  min-width: min-content ;
+}
+
+.minh-min-content {
+  min-height: min-content ;
+}
+
+.top-5 {
+  top: 5%;
+}

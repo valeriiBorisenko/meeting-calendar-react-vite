@@ -1,10 +1,15 @@
-import "./header.css"
+import './header.css';
+import NavBarHeader from './NavBarHeader/NavBarHeader';
 
 const Header = () => {
 
     return (
-        <header className="header">Header</header>
-    )
-}
+        <header className="header bg-dark">
+            <div className="container">
+                <NavBarHeader />
+            </div>
+        </header>
+    );
+};
 
 export default Header;
