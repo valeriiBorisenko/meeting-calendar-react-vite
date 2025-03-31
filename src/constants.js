@@ -1,7 +1,7 @@
 export const navBarHeader = [
     {
         name: 'Home',
-        link: '/meeting-calendar-react-vite/'
+        link: '/meeting-calendar-react-vite'
     },
     {
         name: 'About',
