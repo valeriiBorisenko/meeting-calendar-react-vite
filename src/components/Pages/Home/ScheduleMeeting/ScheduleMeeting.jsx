@@ -4,7 +4,9 @@ import Form from './Form/Form';
 import './schedule-meeting.css';
 import { useForm } from 'react-hook-form';
 import Table from './Table/Table';
-import { Fragment, useState } from 'react';
+import { Fragment, useContext, useEffect, useState } from 'react';
+import { RootWidthContext } from '../../../../utils/context';
+import TableMobile from './Table/TableMobile';
 
 const defaultValues = {
     id: 0,
@@ -17,21 +19,32 @@ const defaultValues = {
 };
 
 const ScheduleMeeting = () => {
+    const width = useContext(RootWidthContext);
     const [meeting, setMeeting] = useState([]);
     const [update, setUpdate] = useState(false);
     const [done, setDone] = useState(false);
     const { register, formState: { errors }, handleSubmit, setValue, reset, setError, clearErrors } = useForm({ defaultValues });
 
     const handleClickFormSubmitNew = () => {
-        const id = meeting.length + 1;
+        let id = 0;
+
+        meeting.forEach(item => {
+            if (id <= item?.id) {
+                id = item?.id + 1;
+            }
+        });
         setValue('id', id);
       
         handleSubmit((value) => {
             setMeeting(prev => [...prev, value]);
             handleDone();
-            resetForm();
+            //resetForm();
         })();
     };
+
+    useEffect(()=>{
+        console.log(meeting);
+    },[meeting]);
 
     const handleClickFormSubmitUpdate = () => {
         handleSubmit((value) => {
@@ -113,11 +126,17 @@ const ScheduleMeeting = () => {
                 <SectionTab >
                     <h2 className="fs-3 m-0">List of Created Meetings</h2>
                     {meeting.length > 0 ? 
-                        <Table 
-                            meeting={meeting} 
-                            handleClickDeleteMeeting={handleClickDeleteMeeting}
-                            handleClickUpdateMeeting={handleClickUpdateMeeting}
-                        /> : 
+                        ( width >= 576 ?
+                            <Table 
+                                meeting={meeting} 
+                                handleClickDeleteMeeting={handleClickDeleteMeeting}
+                                handleClickUpdateMeeting={handleClickUpdateMeeting}
+                            /> : 
+                            <TableMobile 
+                                meeting={meeting} 
+                                handleClickDeleteMeeting={handleClickDeleteMeeting}
+                                handleClickUpdateMeeting={handleClickUpdateMeeting}
+                            />) :
                         <p className='m-0'>No meetings scheduled yet...</p>
                     }
                 </SectionTab>

@@ -22,18 +22,19 @@ const Table = (props) => {
                     {
                         meeting?.map((item, index) =>
                             <motion.tr 
+                                className='border-bottom'
                                 key={`meeting-list${index + 1}`}
                                 initial={{ opacity: 0, height: 0, margin: 0, padding: 0 }}
-                                animate={{ opacity: 1, height: 'auto' }}
+                                animate={{ opacity: 1, height: '100%' }}
                                 exit={{ opacity: 0, height: 0, margin: 0, padding: 0 }}
                                 transition={{ duration: 0.5 }}
                             >
-                                <th scope="row">{index + 1}</th>
-                                <td>{item?.title}</td>
-                                <td>{item?.date}</td>
-                                <td>{item?.time}</td>
-                                <td>{item?.level}</td>
-                                <td className='d-flex gap-1'>
+                                <th className='border-0' scope="row">{index + 1}</th>
+                                <td className='border-0'>{item?.title}</td>
+                                <td className='border-0'>{item?.date}</td>
+                                <td className='border-0'>{item?.time}</td>
+                                <td className='border-0'>{item?.level}</td>
+                                <td className='d-flex gap-1 border-0'>
                                     <button className='btn bg-warning' onClick={() => handleClickUpdateMeeting(item)}>
                                         <i  className="bi bi-pencil-square"></i>
                                     </button>

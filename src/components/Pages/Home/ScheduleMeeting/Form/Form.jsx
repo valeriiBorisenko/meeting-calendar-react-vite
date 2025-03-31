@@ -42,6 +42,7 @@ const Form = (props) => {
                                 { required: { value: true,message: 'Date is required' } }) }}
                         type={'date'}
                         errors={errors?.date}
+                        min={new Date().toISOString().slice(0, 10)}
                     />
                 </div>
                 <div className='col'>
@@ -51,6 +52,7 @@ const Form = (props) => {
                         register={{ ...register('time', { required: { value: true,message: 'Time is required' } }) }}
                         type={'time'}
                         errors={errors?.time}
+                        min={new Date().toTimeString().slice(0, 5)}
                     />
                 </div>                  
             </div>
