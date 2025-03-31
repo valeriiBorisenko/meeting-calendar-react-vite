@@ -28,7 +28,7 @@ const NavBarMain = (props) => {
                     <i className="bi bi-speedometer2" style={{ fontSize: '2rem' }}/>
                     <h3 className="m-0 ms-3 text-center">Dashboard</h3>
                 </div> : 
-                <button className="btn btn-dark w-100 rounded-0 rounded-top d-flex flex-row align-items-center justify-content-center bg-dark text-white p-1 p-md-5 pt-md-3 pb-md-3"
+                <button className={`btn btn-dark w-100 rounded-0 rounded-top ${width < 576 && !show ? 'rounded-bottom' : ''} d-flex flex-row align-items-center justify-content-center bg-dark text-white p-1 p-md-5 pt-md-3 pb-md-3`}
                     onClick={handleClickShow}
                 >
                     <i className="bi bi-speedometer2" style={{ fontSize: '2rem' }}/>

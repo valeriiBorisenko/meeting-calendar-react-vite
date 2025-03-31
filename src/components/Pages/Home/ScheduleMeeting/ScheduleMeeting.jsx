@@ -38,7 +38,7 @@ const ScheduleMeeting = () => {
         handleSubmit((value) => {
             setMeeting(prev => [...prev, value]);
             handleDone();
-            //resetForm();
+            resetForm();
         })();
     };
 
