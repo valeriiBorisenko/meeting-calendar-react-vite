@@ -11,7 +11,8 @@ const Form = (props) => {
         update, 
         handleClickFormSubmit, 
         handleClickCancelUpdateMeeting = () => {},
-        done
+        done,
+        watch
     } = props;
 
     return (
@@ -52,7 +53,20 @@ const Form = (props) => {
                         register={{ ...register('time', { required: { value: true,message: 'Time is required' } }) }}
                         type={'time'}
                         errors={errors?.time}
-                        min={new Date().toTimeString().slice(0, 5)}
+                        min={
+                            (() => {
+                                const today = new Date();
+                                
+                                const selectedDate = new Date(watch('date'));
+                                const isSameDay = selectedDate.toDateString() === today.toDateString();
+
+                                if (isSameDay) {
+                                    return today.toTimeString().slice(0, 5); 
+                                }
+                        
+                                return undefined; 
+                            })()
+                        }
                     />
                 </div>                  
             </div>
@@ -77,9 +91,9 @@ const Form = (props) => {
             <Inpunt 
                 label={'Participants'} 
                 placeholder={'Enter participant emails'}
-                id={'emails'}
+                id={'participantsEmails'}
                 register={
-                    { ...register('emails', {
+                    { ...register('participantsEmails', {
                         required: { value: true, message: 'At least one email is required' },
                         pattern: {
                             value: /^([^\s@]+@[^\s@]+\.[^\s@]+)(\s*,\s*[^\s@]+@[^\s@]+\.[^\s@]+)*$/,
@@ -98,7 +112,7 @@ const Form = (props) => {
                     }) 
                     }}
                 type={'text'}
-                errors={errors?.emails}
+                errors={errors?.participantsEmails}
             />
             <div className="form-group d-flex flex-column gap-2">
                 <label htmlFor={'description'}>Description</label>

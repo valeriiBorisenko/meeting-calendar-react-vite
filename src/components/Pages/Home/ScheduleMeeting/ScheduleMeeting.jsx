@@ -7,6 +7,7 @@ import Table from './Table/Table';
 import { Fragment, useContext, useEffect, useState } from 'react';
 import { RootWidthContext } from '../../../../utils/context';
 import TableMobile from './Table/TableMobile';
+import axiosRequest from '../../../../utils/hook/axiosRequestHook';
 
 const defaultValues = {
     id: 0,
@@ -14,7 +15,7 @@ const defaultValues = {
     date: null,
     time: null,
     level: '',
-    emails: '',
+    participantsEmails: '',
     description: ''
 };
 
@@ -23,22 +24,36 @@ const ScheduleMeeting = () => {
     const [meeting, setMeeting] = useState([]);
     const [update, setUpdate] = useState(false);
     const [done, setDone] = useState(false);
-    const { register, formState: { errors }, handleSubmit, setValue, reset, setError, clearErrors } = useForm({ defaultValues });
+    const { register, formState: { errors }, handleSubmit, reset, watch, setError, clearErrors } = useForm({ defaultValues });
 
-    const handleClickFormSubmitNew = () => {
-        let id = 0;
-
-        meeting.forEach(item => {
-            if (id <= item?.id) {
-                id = item?.id + 1;
-            }
-        });
-        setValue('id', id);
-      
+    const handleClickFormSubmitNew = () => {    
         handleSubmit((value) => {
-            setMeeting(prev => [...prev, value]);
-            handleDone();
-            resetForm();
+
+            const dataBody = {
+                title: value?.title,
+                date: value?.date,
+                time: value?.time,
+                level: value?.level,
+                participantsEmails: value?.participantsEmails
+            };
+
+            if (value?.description !== '') {
+                dataBody['description'] = value?.description;
+            }
+
+            axiosRequest({
+                method: 'POST',
+                url: '/meetings',
+                data: dataBody,
+                callback: (props) => {
+                    if (!props?.error) {
+                        setMeeting(prev => [...prev, value]);
+                        callMeetingsApi();
+                        handleDone();
+                        resetForm();
+                    }
+                }
+            });
         })();
     };
 
@@ -52,14 +67,37 @@ const ScheduleMeeting = () => {
 
             const hasChanges = JSON.stringify(value) !== JSON.stringify(updateElement);
 
-            if (hasChanges) {          
-                setMeeting(meeting.map(item =>
-                    item.id === value.id ? value : item
-                ));
-                handleDone();
-                setUpdate(false);
-                clearErrors('root');
-                resetForm();
+            if (hasChanges) {    
+                const dataBody = {
+                    id: value?.id,
+                    title: value?.title,
+                    date: value?.date,
+                    time: value?.time,
+                    level: value?.level,
+                    participantsEmails: value?.participantsEmails
+                };
+    
+                if (value?.description !== '') {
+                    dataBody['description'] = value?.description;
+                }
+    
+                axiosRequest({
+                    method: 'PUT',
+                    url: '/meetings',
+                    data: dataBody,
+                    callback: (props) => {
+                        if (!props?.error) {
+                            setMeeting(meeting.map(item =>
+                                item.id === value.id ? value : item
+                            ));
+                            handleDone();
+                            setUpdate(false);
+                            callMeetingsApi();
+                            resetForm();
+                            clearErrors('root');
+                        }
+                    }
+                });
             } else {
                 setError('root', {
                     type: 'manual',
@@ -70,7 +108,17 @@ const ScheduleMeeting = () => {
     };
 
     const handleClickDeleteMeeting = (id) => {
-        setMeeting(meeting.filter(item => item?.id !== id));
+        axiosRequest({
+            method: 'DELETE',
+            url: `/meetings/${id}`,
+            callback: (props) => {
+                if (!props?.error) {
+                    setMeeting(meeting.filter(item => item?.id !== id));
+                    callMeetingsApi();
+                    resetForm();
+                }
+            }
+        });
     };
 
     const handleClickUpdateMeeting = (value) => {
@@ -92,6 +140,18 @@ const ScheduleMeeting = () => {
         setTimeout(() => setDone(false), 3000);
     };
 
+    const callMeetingsApi  = () => {
+        axiosRequest({
+            method: 'GET',
+            url: '/meetings',
+            callback: (data)=> setMeeting(data),
+        });
+    };
+
+    useEffect(() => {
+        callMeetingsApi();
+    },[]);
+
     return (
         <div className='d-flex flex-column gap-4 w-100'>
             <SectionTab >
@@ -106,6 +166,7 @@ const ScheduleMeeting = () => {
                                 handleClickCancelUpdateMeeting={handleClickCancelUpdateMeeting}
                                 update={update}
                                 done={done}
+                                watch={watch}
                             /> 
                         </Fragment> :
                         <Fragment>
@@ -116,6 +177,7 @@ const ScheduleMeeting = () => {
                                 handleClickFormSubmit={handleClickFormSubmitNew}
                                 update={update}
                                 done={done}
+                                watch={watch}
                             />
                         </Fragment>
                 }
